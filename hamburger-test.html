@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamburger Test</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 400;
+      background: #1a73e8;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    }
+    
+    .logo { color: #fff; font-weight: bold; font-size: 18px; }
+    
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer !important;
+      position: relative;
+      z-index: 351 !important;
+      touch-action: manipulation;
+      user-select: none;
+      pointer-events: auto !important;
+      background: transparent;
+      border: none;
+      width: 40px;
+      height: 40px;
+      justify-content: center;
+    }
+    
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(.4,0,.2,1);
+      transform-origin: center;
+      pointer-events: none;
+    }
+    
+    .hamburger.active span:nth-child(1) { 
+      transform: translateY(7px) rotate(45deg); 
+    }
+    .hamburger.active span:nth-child(2) { 
+      opacity: 0; 
+      transform: scaleX(0); 
+    }
+    .hamburger.active span:nth-child(3) { 
+      transform: translateY(-7px) rotate(-45deg); 
+    }
+    
+    .mobile-nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 300;
+      display: flex;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s 0.3s, opacity 0.3s;
+    }
+    
+    .mobile-nav.open {
+      pointer-events: auto;
+      visibility: visible;
+      opacity: 1;
+      transition: visibility 0s, opacity 0.3s;
+    }
+    
+    .mobile-nav-overlay {
+      flex: 1;
+      background: rgba(0,0,0,.5);
+    }
+    
+    .mobile-nav-panel {
+      width: 300px;
+      background: #fff;
+      height: 100%;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    .mobile-nav.open .mobile-nav-panel { 
+      transform: translateX(0); 
+    }
+    
+    .content {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .content p {
+      margin: 20px 0;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+    }
+    
+    .debug {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 12px;
+      max-width: 300px;
+      max-height: 150px;
+      overflow: auto;
+      z-index: 9999;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Hey Buddy Test</div>
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-panel">
+    <h3>Menu</h3>
+    <p><a href="#">Home</a></p>
+    <p><a href="#">Products</a></p>
+    <p><a href="#">Cart</a></p>
+    <p><a href="#">Account</a></p>
+  </div>
+  <div class="mobile-nav-overlay"></div>
+</div>
+
+<main class="content">
+  <h1>Hamburger Menu Test</h1>
+  <p>Resize your browser to mobile width (&lt;768px) to see the hamburger menu.</p>
+  <p>Click the hamburger icon (three lines) in the top right to see it animate into an X.</p>
+  <p>This is a minimal test to isolate the hamburger functionality.</p>
+  
+  <h2>Debug Info</h2>
+  <div class="debug" id="debug">Waiting...</div>
+</main>
+
+<script>
+  const debug = document.getElementById('debug');
+  
+  function log(msg) {
+    console.log(msg);
+    debug.innerHTML += msg + '<br>';
+    debug.scrollTop = debug.scrollHeight;
+  }
+  
+  log('[Init] Starting hamburger setup...');
+  
+  const ham = document.querySelector('#hamburger');
+  const mnav = document.getElementById('mobile-nav');
+  const overlay = document.querySelector('.mobile-nav-overlay');
+  
+  log('[Check] Hamburger: ' + (ham ? '✓' : '✗'));
+  log('[Check] Mobile Nav: ' + (mnav ? '✓' : '✗'));
+  log('[Check] Overlay: ' + (overlay ? '✓' : '✗'));
+  
+  if (!ham || !mnav) {
+    log('[ERROR] Missing elements!');
+  } else {
+    let isOpen = false;
+    
+    function toggle() {
+      isOpen = !isOpen;
+      log('[Toggle] isOpen = ' + isOpen);
+      
+      ham.classList.toggle('active', isOpen);
+      mnav.classList.toggle('open', isOpen);
+      ham.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    
+    ham.setAttribute('role', 'button');
+    ham.setAttribute('aria-label', 'Toggle menu');
+    ham.setAttribute('aria-expanded', 'false');
+    ham.style.cursor = 'pointer';
+    
+    ham.onclick = (e) => {
+      log('[Click] Hamburger clicked');
+      e.preventDefault();
+      e.stopPropagation();
+      toggle();
+    };
+    
+    overlay.addEventListener('click', () => {
+      log('[Click] Overlay clicked');
+      if (isOpen) toggle();
+    });
+    
+    log('[Setup] ✓ Hamburger ready');
+    
+    // Visual test
+    setTimeout(() => {
+      log('[Test] Auto-toggling menu in 1s...');
+      setTimeout(toggle, 1000);
+      setTimeout(toggle, 2000);
+    }, 500);
+  }
+</script>
+
+</body>
+</html>

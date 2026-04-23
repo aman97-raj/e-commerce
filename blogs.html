@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Hey Buddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .blog-hero { background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; border-radius: 14px; padding: 28px; margin-bottom: 16px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .blog-card { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; cursor: pointer; }
+    .blog-card img { width: 100%; height: 200px; object-fit: cover; background: var(--bg); }
+    .blog-content { padding: 14px; }
+    .blog-meta { font-size: 12px; color: var(--text3); margin-bottom: 8px; }
+    .blog-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.35; }
+    .blog-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; }
+    .blog-media { margin: 12px 0; border-radius: 10px; overflow: hidden; }
+    .blog-media img, .blog-media iframe { width: 100%; min-height: 260px; border: 0; }
+    .blog-empty { text-align: center; background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); padding: 48px 24px; color: var(--text3); }
+    @media (max-width: 1024px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .blog-grid { grid-template-columns: 1fr; } .blog-card img { height: 180px; } }
+  </style>
+</head>
+<body>
+<div class="announcement-bar" id="ann-bar">
+  <span>Latest style stories from Hey Buddy Blog</span>
+  <button class="ann-close" onclick="document.getElementById('ann-bar').style.display='none'" aria-label="Close">×</button>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img class="logo-img" src="assets/images/logo/logo-nav.png" alt="Hey Buddy"></a>
+    <div class="search-bar">
+      <form onsubmit="handleSearch(event)">
+        <input id="search-input" type="text" placeholder="Search products, brands and more..." autocomplete="off">
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </form>
+      <div id="search-suggestions" class="search-suggestions"></div>
+    </div>
+    <nav class="header-nav">
+      <a href="login.html" class="h-btn" id="header-login-btn"><i class="fas fa-user-circle"></i> Login</a>
+      <a href="pages/profile.html" class="h-btn hidden" id="header-user-btn"><i class="fas fa-user-circle"></i> <span id="header-user-name">Account</span></a>
+      <a href="pages/wishlist.html" class="h-btn"><i class="fas fa-heart"></i> Wishlist</a>
+      <a href="pages/cart.html" class="h-btn cart-btn" style="position:relative"><i class="fas fa-shopping-bag"></i> Cart<span id="cart-badge" class="badge" style="display:none">0</span></a>
+    </nav>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-panel">
+    <div class="mnav-header" id="mnav-user-section">
+      <h3>Welcome!</h3>
+      <p>Sign in to your account</p>
+      <a class="mnav-login-btn" href="login.html">Login / Register</a>
+    </div>
+    <div class="mnav-section">
+      <div class="mnav-title">My Account</div>
+      <a class="mnav-item" href="pages/profile.html"><i class="fas fa-user"></i><span>My Profile</span></a>
+      <a class="mnav-item" href="pages/orders.html"><i class="fas fa-box"></i><span>My Orders</span></a>
+      <a class="mnav-item" href="pages/wishlist.html"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+      <a class="mnav-item" href="pages/cart.html"><i class="fas fa-shopping-bag"></i><span>Cart</span></a>
+    </div>
+    <div class="mnav-section">
+      <div class="mnav-title">More</div>
+      <a class="mnav-item" href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+      <div class="mnav-item" onclick="App.logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+    </div>
+  </div>
+  <div class="mobile-nav-overlay"></div>
+</div>
+
+<main class="page-wrap" style="max-width:1240px;margin:0 auto;padding:16px;">
+  <section class="blog-hero">
+    <h1 style="font-size:30px;font-weight:800;margin-bottom:8px">Hey Buddy Blog</h1>
+    <p style="opacity:.92;max-width:620px">Read fashion tips, launch updates, and product stories from the team. Fresh posts every week.</p>
+  </section>
+
+  <div style="background:var(--surface);padding:12px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <input id="blog-search" class="form-input" style="max-width:320px" type="text" placeholder="Search blog posts...">
+    <button class="btn btn-primary btn-sm" onclick="loadBlogs(1)"><i class="fas fa-search"></i> Search</button>
+    <span id="blog-count" style="font-size:13px;color:var(--text3);margin-left:auto"></span>
+  </div>
+
+  <div id="blog-grid" class="blog-grid"></div>
+  <div id="blog-empty" class="blog-empty" style="display:none">No blog posts found.</div>
+  <div id="blog-pagination" class="pagination"></div>
+</main>
+
+<div class="modal-overlay" id="blog-detail-modal">
+  <div class="modal" style="max-width:900px">
+    <div class="modal-header">
+      <span class="modal-title" id="detail-title">Blog</span>
+      <button class="modal-close" onclick="closeModal('blog-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">
+    <img src="assets/images/logo/logo-nav.png" alt="Hey Buddy" style="height:48px;object-fit:contain;margin-bottom:10px">
+    <p>India's favourite personal product store.<br>Let's Be Together! 🤝</p>
+  </div>
+  <div class="footer-grid">
+    <div class="footer-col"><h4>Company</h4><a href="#">About Hey Buddy</a><a href="#">Careers</a><a href="#">Press</a><a href="blogs.html">Blog</a></div>
+    <div class="footer-col"><h4>Help</h4><a href="#">Payments</a><a href="#">Shipping Info</a><a href="#">Cancellations</a><a href="#">FAQ</a></div>
+    <div class="footer-col"><h4>Policies</h4><a href="#">Return Policy</a><a href="#">Terms of Use</a><a href="#">Privacy Policy</a><a href="#">Security</a></div>
+    <div class="footer-col"><h4>Sell on Hey Buddy</h4><a href="#">Become a Seller</a><a href="#">Seller Centre</a><a href="#">Advertise</a><a href="#">Affiliate Programme</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Hey Buddy. All rights reserved.</span></div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let blogPage = 1;
+
+function handleSearch(e) {
+  e.preventDefault();
+  const q = document.getElementById('search-input').value.trim();
+  if (q) window.location.href = 'pages/shop.html?search=' + encodeURIComponent(q);
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>'"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+}
+
+function parseEmbed(url) {
+  const u = String(url || '').trim();
+  if (!u) return '';
+  const yt = u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/i);
+  if (yt) return 'https://www.youtube.com/embed/' + yt[1];
+  return u;
+}
+
+function renderBlogs(items) {
+  const grid = document.getElementById('blog-grid');
+  const empty = document.getElementById('blog-empty');
+
+  if (!items.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  grid.innerHTML = items.map((b) => `
+    <article class="blog-card" onclick="openBlog(${b.id})">
+      <img src="${esc(b.cover_image || 'https://via.placeholder.com/640x360?text=Blog')}" alt="${esc(b.title)}" onerror="this.src='https://via.placeholder.com/640x360?text=Blog'">
+      <div class="blog-content">
+        <div class="blog-meta">${esc(b.category || 'Style')} • ${new Date(b.created_at).toLocaleDateString('en-IN')}</div>
+        <div class="blog-title">${esc(b.title)}</div>
+        <div class="blog-excerpt">${esc((b.excerpt || '').slice(0, 140))}</div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderPagination(page, pages) {
+  const wrap = document.getElementById('blog-pagination');
+  if (pages <= 1) {
+    wrap.innerHTML = '';
+    return;
+  }
+  wrap.innerHTML = `
+    <button class="page-btn" ${page <= 1 ? 'disabled' : ''} onclick="loadBlogs(${page - 1})">Prev</button>
+    <button class="page-btn active">${page}</button>
+    <button class="page-btn" ${page >= pages ? 'disabled' : ''} onclick="loadBlogs(${page + 1})">Next</button>
+  `;
+}
+
+async function loadBlogs(page = 1) {
+  blogPage = page;
+  const q = document.getElementById('blog-search').value.trim();
+  const res = await fetch(`blogs.php?action=list&page=${page}&limit=9&search=${encodeURIComponent(q)}`).then((r) => r.json()).catch(() => null);
+  if (!res || !res.success) {
+    toast('Unable to load blogs', 'error');
+    return;
+  }
+
+  document.getElementById('blog-count').textContent = `${res.total || 0} posts`;
+  renderBlogs(res.items || []);
+  renderPagination(res.page || 1, res.pages || 1);
+}
+
+async function openBlog(id) {
+  const res = await fetch(`blogs.php?action=detail&id=${id}`).then((r) => r.json()).catch(() => null);
+  if (!res || !res.success || !res.item) {
+    toast('Blog not found', 'error');
+    return;
+  }
+
+  const b = res.item;
+  document.getElementById('detail-title').textContent = b.title || 'Blog';
+
+  let mediaHtml = '';
+  if ((b.media_type || 'none') === 'image' && b.media_url) {
+    mediaHtml = `<div class="blog-media"><img src="${esc(b.media_url)}" alt="${esc(b.title)}" onerror="this.style.display='none'"></div>`;
+  }
+  if ((b.media_type || 'none') === 'video' && b.media_url) {
+    mediaHtml = `<div class="blog-media"><iframe src="${esc(parseEmbed(b.media_url))}" allowfullscreen loading="lazy"></iframe></div>`;
+  }
+
+  document.getElementById('detail-body').innerHTML = `
+    <img src="${esc(b.cover_image || 'https://via.placeholder.com/960x400?text=Blog')}" alt="${esc(b.title)}" style="width:100%;border-radius:10px;max-height:380px;object-fit:cover;background:var(--bg)">
+    ${mediaHtml}
+    <div style="margin-top:12px;font-size:12px;color:var(--text3)">${esc(b.category || 'Style')} • ${esc(b.author_name || 'Hey Buddy Team')} • ${new Date(b.created_at).toLocaleDateString('en-IN')}</div>
+    <p style="margin-top:10px;line-height:1.8;color:var(--text2);white-space:pre-wrap">${esc(b.content || '')}</p>
+  `;
+
+  openModal('blog-detail-modal');
+}
+
+document.getElementById('blog-search').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') loadBlogs(1);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadBlogs(blogPage);
+});
+</script>
+</body>
+</html>

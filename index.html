@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey Buddy — Let's Be Together | India's Favourite Online Store</title>
+  <meta name="description" content="Hey Buddy — India's favourite personal product store. Shop electronics, fashion, home, beauty & more. Free delivery above ₹499. Let's Be Together!">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar" id="ann-bar">
+  <span>🎉 Free Delivery above ₹499 &nbsp;|&nbsp; Use code <strong>BUDDY10</strong> for extra 10% off &nbsp;|&nbsp; Easy 10-day returns</span>
+  <button class="ann-close" onclick="document.getElementById('ann-bar').style.display='none'" aria-label="Close">×</button>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img class="logo-img" src="assets/images/logo/logo-nav.png" alt="Hey Buddy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="logo-meta" style="display:none">
+        <span class="logo-text">Hey Buddy</span>
+        <span class="logo-sub">Let's Be Together</span>
+      </span>
+    </a>
+
+    <div class="search-bar">
+      <form onsubmit="handleSearch(event)">
+        <input id="search-input" type="text" placeholder="Search products, brands and more…" autocomplete="off">
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </form>
+      <div id="search-suggestions" class="search-suggestions"></div>
+    </div>
+
+    <nav class="header-nav">
+      <a href="login.html" class="h-btn" id="header-login-btn">
+        <i class="fas fa-user-circle"></i> Login
+      </a>
+      <a href="pages/profile.html" class="h-btn hidden" id="header-user-btn">
+        <i class="fas fa-user-circle"></i> <span id="header-user-name">Account</span>
+      </a>
+      <a href="pages/wishlist.html" class="h-btn">
+        <i class="fas fa-heart"></i> Wishlist
+      </a>
+      <a href="pages/cart.html" class="h-btn cart-btn" style="position:relative">
+        <i class="fas fa-shopping-bag"></i> Cart
+        <span id="cart-badge" class="badge" style="display:none">0</span>
+      </a>
+    </nav>
+
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+
+  <!-- Category Bar -->
+  <nav class="cat-bar">
+    <div class="cat-bar-inner" id="cat-bar-links">
+      <a class="cat-link" href="pages/shop.html?category=electronics"><i class="fas fa-tv"></i> Electronics</a>
+      <a class="cat-link" href="pages/shop.html?category=mobiles"><i class="fas fa-mobile-alt"></i> Mobiles</a>
+      <a class="cat-link" href="pages/shop.html?category=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+      <a class="cat-link" href="pages/shop.html?category=home-furniture"><i class="fas fa-couch"></i> Home</a>
+      <a class="cat-link" href="pages/shop.html?category=appliances"><i class="fas fa-blender"></i> Appliances</a>
+      <a class="cat-link" href="pages/shop.html?category=beauty"><i class="fas fa-spa"></i> Beauty</a>
+      <a class="cat-link" href="pages/shop.html?category=books"><i class="fas fa-book-open"></i> Books</a>
+      <a class="cat-link" href="pages/shop.html?category=sports"><i class="fas fa-running"></i> Sports</a>
+      <a class="cat-link" href="pages/shop.html?category=toys"><i class="fas fa-gamepad"></i> Toys</a>
+      <a class="cat-link" href="pages/shop.html?category=grocery"><i class="fas fa-leaf"></i> Grocery</a>
+    </div>
+  </nav>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-panel">
+    <div class="mnav-header" id="mnav-user-section">
+      <h3>Welcome, Buddy! 👋</h3>
+      <p>Sign in to get exclusive deals</p>
+      <a class="mnav-login-btn" href="login.html">Login / Register</a>
+    </div>
+    <div class="mnav-section">
+      <div class="mnav-title">Categories</div>
+      <a class="mnav-item" href="pages/shop.html?category=electronics"><i class="fas fa-tv"></i><span>Electronics</span></a>
+      <a class="mnav-item" href="pages/shop.html?category=mobiles"><i class="fas fa-mobile-alt"></i><span>Mobiles</span></a>
+      <a class="mnav-item" href="pages/shop.html?category=fashion"><i class="fas fa-tshirt"></i><span>Fashion</span></a>
+      <a class="mnav-item" href="pages/shop.html?category=appliances"><i class="fas fa-blender"></i><span>Appliances</span></a>
+      <a class="mnav-item" href="pages/shop.html?category=beauty"><i class="fas fa-spa"></i><span>Beauty</span></a>
+      <a class="mnav-item" href="pages/shop.html?category=grocery"><i class="fas fa-leaf"></i><span>Grocery</span></a>
+    </div>
+    <div class="mnav-section">
+      <div class="mnav-title">My Account</div>
+      <a class="mnav-item" href="pages/profile.html"><i class="fas fa-user"></i><span>My Profile</span></a>
+      <a class="mnav-item" href="pages/orders.html"><i class="fas fa-box"></i><span>My Orders</span></a>
+      <a class="mnav-item" href="pages/wishlist.html"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+      <a class="mnav-item" href="pages/cart.html"><i class="fas fa-shopping-bag"></i><span>Cart</span></a>
+    </div>
+    <div class="mnav-section">
+      <div class="mnav-title">More</div>
+      <a class="mnav-item" href="admin/login.html"><i class="fas fa-cog"></i><span>Admin Panel</span></a>
+      <div class="mnav-item" onclick="App.logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+    </div>
+  </div>
+  <div class="mobile-nav-overlay"></div>
+</div>
+
+<!-- MAIN -->
+<main class="page-wrap">
+
+  <!-- Hero Slider -->
+  <section class="hero-section">
+    <div class="side-banners" id="side-left">
+      <div class="side-banner hb-banner-electronics" onclick="window.location='pages/shop.html?category=electronics'">
+        <div class="sb-icon"><i class="fas fa-tv"></i></div>
+        <div class="sb-title">Electronics</div>
+        <div class="sb-sub">Up to 40% off</div>
+      </div>
+      <div class="side-banner hb-banner-fashion" onclick="window.location='pages/shop.html?category=fashion'">
+        <div class="sb-icon"><i class="fas fa-tshirt"></i></div>
+        <div class="sb-title">Fashion</div>
+        <div class="sb-sub">Min 50% off</div>
+      </div>
+    </div>
+
+    <div class="slider-wrap">
+      <div class="slider">
+        <div class="slide active" style="background:linear-gradient(135deg,#e41b23 0%,#ff6b35 100%)">
+          <div class="slide-content">
+            <div class="slide-tag">🔥 Big Buddy Sale</div>
+            <h2>Massive Deals<br>Just For You!</h2>
+            <p>Unbeatable offers on electronics, fashion & more</p>
+            <a href="pages/shop.html" class="slide-cta">Shop Now →</a>
+          </div>
+        </div>
+        <div class="slide" style="background:linear-gradient(135deg,#1a237e 0%,#3949ab 100%)">
+          <div class="slide-content">
+            <div class="slide-tag">📱 Mobiles</div>
+            <h2>Smartphones<br>from ₹8,999</h2>
+            <p>Samsung, Apple, OnePlus & more top brands</p>
+            <a href="pages/shop.html?category=mobiles" class="slide-cta">Shop Now →</a>
+          </div>
+        </div>
+        <div class="slide" style="background:linear-gradient(135deg,#1b5e20 0%,#43a047 100%)">
+          <div class="slide-content">
+            <div class="slide-tag">🏠 Home & Living</div>
+            <h2>Home Makeover<br>Sale is Here!</h2>
+            <p>Furniture, appliances & decor at best prices</p>
+            <a href="pages/shop.html?category=home-furniture" class="slide-cta">Shop Now →</a>
+          </div>
+        </div>
+        <div class="slide" style="background:linear-gradient(135deg,#6a1b9a 0%,#ab47bc 100%)">
+          <div class="slide-content">
+            <div class="slide-tag">👗 Fashion Week</div>
+            <h2>Top Brands,<br>Bottom Prices!</h2>
+            <p>Nike, Levi's, Puma & 500+ brands on sale</p>
+            <a href="pages/shop.html?category=fashion" class="slide-cta">Shop Now →</a>
+          </div>
+        </div>
+        <button class="slider-btn prev" aria-label="Previous">&#10094;</button>
+        <button class="slider-btn next" aria-label="Next">&#10095;</button>
+        <div class="slider-dots">
+          <button class="slider-dot active"></button>
+          <button class="slider-dot"></button>
+          <button class="slider-dot"></button>
+          <button class="slider-dot"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-banners" id="side-right">
+      <div class="side-banner hb-banner-appliances" onclick="window.location='pages/shop.html?category=appliances'">
+        <div class="sb-icon"><i class="fas fa-blender"></i></div>
+        <div class="sb-title">Appliances</div>
+        <div class="sb-sub">Exchange offers</div>
+      </div>
+      <div class="side-banner hb-banner-beauty" onclick="window.location='pages/shop.html?category=beauty'">
+        <div class="sb-icon"><i class="fas fa-spa"></i></div>
+        <div class="sb-title">Beauty</div>
+        <div class="sb-sub">Flat 30% off</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <section class="trust-bar">
+    <div class="trust-item"><i class="fas fa-truck-fast"></i><span><strong>Free Delivery</strong> above ₹499</span></div>
+    <div class="trust-item"><i class="fas fa-rotate-left"></i><span><strong>10-Day</strong> easy returns</span></div>
+    <div class="trust-item"><i class="fas fa-shield-halved"></i><span><strong>100% Secure</strong> payments</span></div>
+    <div class="trust-item"><i class="fas fa-tags"></i><span><strong>Best Prices</strong> guaranteed</span></div>
+    <div class="trust-item"><i class="fas fa-headset"></i><span><strong>24/7</strong> customer support</span></div>
+  </section>
+
+  <!-- Deal Banners -->
+  <div class="section-card">
+    <div class="deals-row">
+      <div class="deal-card" onclick="window.location='pages/shop.html'" style="background:linear-gradient(135deg,#e41b23,#ff5722)">
+        <div class="deal-tag">Today's Deal</div>
+        <div class="deal-title">Electronics Fest</div>
+        <div class="deal-disc">Up to 40% off</div>
+        <div class="deal-sub">Ends midnight tonight</div>
+      </div>
+      <div class="deal-card" onclick="window.location='pages/shop.html?category=fashion'" style="background:linear-gradient(135deg,#6a1b9a,#4a148c)">
+        <div class="deal-tag">Fashion Week</div>
+        <div class="deal-title">Top Brands</div>
+        <div class="deal-disc">Min 50% off</div>
+        <div class="deal-sub">Nike, Levi's & more</div>
+      </div>
+      <div class="deal-card" onclick="window.location='pages/shop.html?category=appliances'" style="background:linear-gradient(135deg,#1565c0,#0d47a1)">
+        <div class="deal-tag">Home Upgrade</div>
+        <div class="deal-title">Appliances</div>
+        <div class="deal-disc">Exchange offers</div>
+        <div class="deal-sub">Save extra ₹3000+</div>
+      </div>
+      <div class="deal-card" onclick="window.location='pages/shop.html'" style="background:linear-gradient(135deg,#2e7d32,#1b5e20)">
+        <div class="deal-tag">New Arrivals</div>
+        <div class="deal-title">Grocery & More</div>
+        <div class="deal-disc">Flat ₹200 off</div>
+        <div class="deal-sub">Use code: BUDDY200</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shop by Category -->
+  <div class="section-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Shop by Category</div>
+        <div class="section-subtitle">Explore our wide range — something for everyone!</div>
+      </div>
+      <a href="pages/shop.html" class="see-all">View All →</a>
+    </div>
+    <div class="cat-grid" id="home-categories">
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=electronics'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#e3f0ff,#bbdefb)"><i class="fas fa-tv" style="color:#1565c0"></i></div>
+        <div class="cat-name">Electronics</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=mobiles'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"><i class="fas fa-mobile-alt" style="color:#2e7d32"></i></div>
+        <div class="cat-name">Mobiles</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=fashion'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0)"><i class="fas fa-tshirt" style="color:#c62828"></i></div>
+        <div class="cat-name">Fashion</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=home-furniture'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2)"><i class="fas fa-couch" style="color:#e65100"></i></div>
+        <div class="cat-name">Home</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=appliances'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#e8eaf6,#c5cae9)"><i class="fas fa-blender" style="color:#283593"></i></div>
+        <div class="cat-name">Appliances</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=beauty'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#fce4ec,#f48fb1)"><i class="fas fa-spa" style="color:#880e4f"></i></div>
+        <div class="cat-name">Beauty</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=books'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#e0f2f1,#b2dfdb)"><i class="fas fa-book-open" style="color:#00695c"></i></div>
+        <div class="cat-name">Books</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=sports'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7)"><i class="fas fa-running" style="color:#1b5e20"></i></div>
+        <div class="cat-name">Sports</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=toys'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#fffde7,#fff9c4)"><i class="fas fa-gamepad" style="color:#f57f17"></i></div>
+        <div class="cat-name">Toys</div>
+      </div>
+      <div class="cat-item" onclick="window.location='pages/shop.html?category=grocery'">
+        <div class="cat-icon-wrap" style="background:linear-gradient(135deg,#f3e5f5,#e1bee7)"><i class="fas fa-leaf" style="color:#6a1b9a"></i></div>
+        <div class="cat-name">Grocery</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Products -->
+  <div class="section-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><i class="fas fa-fire" style="color:var(--accent)"></i> Featured Products</div>
+        <div class="section-subtitle">Hand-picked top deals of the day</div>
+      </div>
+      <a href="pages/shop.html" class="see-all">View All →</a>
+    </div>
+    <div id="featured-products" class="products-scroll"></div>
+  </div>
+
+  <!-- New Arrivals -->
+  <div class="section-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">✨ New Arrivals</div>
+        <div class="section-subtitle">Fresh picks added just for you</div>
+      </div>
+      <a href="pages/shop.html?sort=newest" class="see-all">View All →</a>
+    </div>
+    <div id="new-products" class="products-grid" style="padding:1px"></div>
+  </div>
+
+  <!-- Hey Buddy Promise -->
+  <div class="buddy-promise section-card">
+    <div class="bp-header">
+      <img src="assets/images/logo/logo-nav.png" alt="Hey Buddy" style="height:50px;object-fit:contain">
+      <div>
+        <h3>The Hey Buddy Promise</h3>
+        <p>We're not just a store — we're your shopping buddy! 🤝</p>
+      </div>
+    </div>
+    <div class="bp-grid">
+      <div class="bp-item">
+        <div class="bp-icon" style="background:#fff3e0"><i class="fas fa-truck-fast" style="color:#e65100"></i></div>
+        <div class="bp-title">Free Delivery</div>
+        <div class="bp-desc">On all orders above ₹499 — no hidden charges</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-icon" style="background:#e8f5e9"><i class="fas fa-rotate-left" style="color:#2e7d32"></i></div>
+        <div class="bp-title">Easy Returns</div>
+        <div class="bp-desc">10-day hassle-free returns — no questions asked</div>
+      </div>
+      <div class="bp-icon-wrap bp-item">
+        <div class="bp-icon" style="background:#e3f0ff"><i class="fas fa-shield-halved" style="color:#1565c0"></i></div>
+        <div class="bp-title">Secure Payments</div>
+        <div class="bp-desc">100% encrypted — your money is always safe</div>
+      </div>
+      <div class="bp-item">
+        <div class="bp-icon" style="background:#fce4ec"><i class="fas fa-tags" style="color:#c62828"></i></div>
+        <div class="bp-title">Best Prices</div>
+        <div class="bp-desc">Lowest price guaranteed or we'll match it</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">
+    <img src="assets/images/logo/logo-nav.png" alt="Hey Buddy" style="height:48px;object-fit:contain;margin-bottom:10px">
+    <p>India's favourite personal product store.<br>Let's Be Together! 🤝</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Hey Buddy</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="#">Payments</a>
+      <a href="#">Shipping Info</a>
+      <a href="#">Cancellations</a>
+      <a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Policies</h4>
+      <a href="#">Return Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Security</a>
+    </div>
+    <div class="footer-col">
+      <h4>Sell on Hey Buddy</h4>
+      <a href="#">Become a Seller</a>
+      <a href="#">Seller Centre</a>
+      <a href="#">Advertise</a>
+      <a href="#">Affiliate Programme</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Hey Buddy™. All rights reserved.</span>
+    <span>Made with <i class="fas fa-heart" style="color:var(--accent)"></i> in India</span>
+    <span class="pritam-credit-wrap">Developed by <a class="pritam-credit-link" href="https://pritam03.netlify.app/" target="_blank" rel="noopener noreferrer">Pritam</a></span>
+  </div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+function handleSearch(e) {
+  e.preventDefault();
+  const q = document.getElementById('search-input').value.trim();
+  if (q) window.location.href = 'pages/shop.html?search=' + encodeURIComponent(q);
+}
+
+async function loadHomeProducts() {
+  const featuredEl = document.getElementById('featured-products');
+  const newEl = document.getElementById('new-products');
+
+  const [fRes, nRes] = await Promise.all([
+    api(API.products, { action: 'list', featured: 1, limit: 10 }),
+    api(API.products, { action: 'list', sort: 'newest', limit: 8 })
+  ]);
+
+  if (fRes.success && fRes.items.length) {
+    featuredEl.innerHTML = fRes.items.map(p => productCard(p)).join('');
+  } else {
+    featuredEl.innerHTML = '<div class="empty-state"><div class="empty-icon"><i class="fas fa-box-open" style="font-size:48px;color:#ddd"></i></div><div class="empty-title">No featured products yet</div><div class="empty-sub">Check back soon!</div></div>';
+  }
+
+  if (nRes.success && nRes.items.length) {
+    newEl.innerHTML = nRes.items.map(p => productCard(p)).join('');
+  } else {
+    newEl.innerHTML = '<div class="empty-state"><i class="fas fa-sparkles" style="font-size:40px;color:#ddd"></i><div class="empty-title">New products coming soon!</div></div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await App.init();
+  loadHomeProducts();
+});
+</script>
+</body>
+</html>

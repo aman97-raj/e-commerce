@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register — Hey Buddy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .pass-wrap { position: relative; }
+    .pass-wrap .form-input { padding-right: 44px; }
+    .pass-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text3); font-size: 15px; padding: 4px; }
+    .pass-toggle:hover { color: var(--text); }
+    .auth-left { background: linear-gradient(145deg, var(--accent) 0%, #ff5722 100%) !important; }
+    .hb-auth-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+    .hb-auth-logo img { height: 56px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,.25)); }
+    .hb-auth-logo-text { font-family: var(--font-heading); font-size: 26px; font-weight: 800; color: #fff; line-height: 1; }
+    .hb-auth-logo-sub { font-size: 11px; color: rgba(255,255,255,.75); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+    .csrf-banner { background: #fff8e1; border: 1px solid #ffe082; border-radius: var(--radius); padding: 9px 12px; font-size: 12px; color: #795548; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .csrf-banner i { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .buddy-tagline { font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .buddy-tagline span { color: var(--primary); }
+  </style>
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <!-- Left Panel -->
+    <div class="auth-left">
+      <div>
+        <div class="hb-auth-logo">
+          <img src="assets/images/logo/logo-nav.png" alt="Hey Buddy" onerror="this.style.display='none'">
+          <div>
+            <div class="hb-auth-logo-text">Hey Buddy</div>
+            <div class="hb-auth-logo-sub">Let's Be Together</div>
+          </div>
+        </div>
+        <div class="buddy-tagline">Your <span>Shopping Buddy</span><br>is Right Here! 🤝</div>
+        <p style="font-size:14px;opacity:.9;line-height:1.7">Millions of products &middot; Best prices &middot; Fast delivery &middot; Happy shopping across India</p>
+      </div>
+      <div class="auth-left-features">
+        <div class="auth-feature"><i class="fas fa-shield-halved"></i> 100% Secure Payments</div>
+        <div class="auth-feature"><i class="fas fa-truck-fast"></i> Free Delivery above ₹499</div>
+        <div class="auth-feature"><i class="fas fa-rotate-left"></i> Easy 10-Day Returns</div>
+        <div class="auth-feature"><i class="fas fa-tags"></i> Best Prices Guaranteed</div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="auth-right">
+      <div class="auth-toggle">
+        <button class="auth-toggle-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+        <button class="auth-toggle-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <div id="csrf-banner" class="csrf-banner" style="display:none">
+        <i class="fas fa-circle-notch"></i> Securing your connection…
+      </div>
+
+      <!-- Login Form -->
+      <div id="form-login">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input id="login-email" class="form-input" type="email" placeholder="Enter your email" autocomplete="email">
+          <div class="form-error" id="err-login-email"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="pass-wrap">
+            <input id="login-password" class="form-input" type="password" placeholder="Enter your password" autocomplete="current-password">
+            <button class="pass-toggle" type="button" onclick="togglePass('login-password',this)"><i class="far fa-eye"></i></button>
+          </div>
+          <div class="form-error" id="err-login-pass"></div>
+        </div>
+        <div style="text-align:right;margin-bottom:16px">
+          <a href="#" style="font-size:13px;color:var(--text3)">Forgot Password?</a>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="login-btn" onclick="doLogin()">
+          <i class="fas fa-sign-in-alt" style="margin-right:6px"></i>Login Securely
+        </button>
+        <div class="auth-divider"><span>or</span></div>
+        <p class="auth-switch">New to Hey Buddy? <a href="#" onclick="switchTab('register')">Create account — it's free!</a></p>
+      </div>
+
+      <!-- Register Form -->
+      <div id="form-register" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input id="reg-name" class="form-input" type="text" placeholder="Your full name" autocomplete="name">
+          <div class="form-error" id="err-reg-name"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input id="reg-email" class="form-input" type="email" placeholder="Enter your email" autocomplete="email">
+          <div class="form-error" id="err-reg-email"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input id="reg-phone" class="form-input" type="tel" placeholder="10-digit mobile number" maxlength="13" autocomplete="tel">
+          <div class="form-error" id="err-reg-phone"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="pass-wrap">
+            <input id="reg-password" class="form-input" type="password" placeholder="Minimum 6 characters" autocomplete="new-password">
+            <button class="pass-toggle" type="button" onclick="togglePass('reg-password',this)"><i class="far fa-eye"></i></button>
+          </div>
+          <div class="form-error" id="err-reg-pass"></div>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="reg-btn" onclick="doRegister()">
+          <i class="fas fa-user-plus" style="margin-right:6px"></i>Join Hey Buddy — It's Free!
+        </button>
+        <p class="auth-switch">Already a buddy? <a href="#" onclick="switchTab('login')">Login here</a></p>
+      </div>
+
+      <p style="font-size:11px;color:var(--text4);text-align:center;margin-top:16px">
+        By continuing, you agree to Hey Buddy's <a href="#" style="color:var(--accent)">Terms</a> and <a href="#" style="color:var(--accent)">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+let csrfToken = null;
+
+async function loadCsrf() {
+  document.getElementById('csrf-banner').style.display = 'flex';
+  try {
+    const res = await api(API.auth, { action: 'status' });
+    if (res && res.success) {
+      csrfToken = res.csrf;
+      if (res.authenticated) { window.location.href = 'index.html'; return; }
+    }
+  } catch(e) { console.warn('CSRF load error:', e); }
+  document.getElementById('csrf-banner').style.display = 'none';
+}
+
+async function ensureCsrf() {
+  if (csrfToken) return true;
+  await loadCsrf();
+  if (!csrfToken) { toast('Connection error — please refresh and try again.', 'error'); return false; }
+  return true;
+}
+
+function switchTab(tab) {
+  document.getElementById('form-login').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+function setErr(id, msg) {
+  const el = document.getElementById(id); if (!el) return;
+  el.textContent = msg; el.classList.toggle('show', !!msg);
+}
+
+function togglePass(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  const icon = btn.querySelector('i');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  icon.className = inp.type === 'password' ? 'far fa-eye' : 'far fa-eye-slash';
+}
+
+async function doLogin() {
+  setErr('err-login-email',''); setErr('err-login-pass','');
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email)    { setErr('err-login-email','Email is required'); return; }
+  if (!/\S+@\S+\.\S+/.test(email)) { setErr('err-login-email','Enter a valid email address'); return; }
+  if (!password) { setErr('err-login-pass','Password is required'); return; }
+  if (!await ensureCsrf()) return;
+
+  const btn = document.getElementById('login-btn');
+  btn.classList.add('loading'); btn.disabled = true;
+  const res = await api(API.auth, {}, 'POST', { action:'login', email, password, csrf_token: csrfToken });
+  btn.classList.remove('loading'); btn.disabled = false;
+
+  if (res.success) {
+    toast('Welcome back, Buddy! 🎉', 'success');
+    setTimeout(() => { window.location.href = 'index.html'; }, 900);
+  } else {
+    toast(res.message || 'Invalid email or password.', 'error');
+    csrfToken = null; loadCsrf();
+  }
+}
+
+async function doRegister() {
+  ['err-reg-name','err-reg-email','err-reg-pass','err-reg-phone'].forEach(id => setErr(id,''));
+  const full_name = document.getElementById('reg-name').value.trim();
+  const email     = document.getElementById('reg-email').value.trim();
+  const phone     = document.getElementById('reg-phone').value.trim().replace(/\D+/g, '');
+  const password  = document.getElementById('reg-password').value;
+
+  if (!full_name)   { setErr('err-reg-name','Full name is required'); return; }
+  if (!email)       { setErr('err-reg-email','Email is required'); return; }
+  if (!/\S+@\S+\.\S+/.test(email)) { setErr('err-reg-email','Enter a valid email address'); return; }
+  if (phone.length !== 10) { setErr('err-reg-phone','Enter a valid 10-digit mobile number'); return; }
+  if (password.length < 6) { setErr('err-reg-pass','Password must be at least 6 characters'); return; }
+  if (!await ensureCsrf()) return;
+
+  const btn = document.getElementById('reg-btn');
+  btn.classList.add('loading'); btn.disabled = true;
+  const res = await api(API.auth, {}, 'POST', { action:'register', full_name, email, phone, password, csrf_token: csrfToken });
+  btn.classList.remove('loading'); btn.disabled = false;
+
+  if (res.success) {
+    toast('Welcome to Hey Buddy! 🎉 Let\'s Be Together!', 'success');
+    setTimeout(() => { window.location.href = 'index.html'; }, 900);
+  } else {
+    toast(res.message || 'Registration failed. Please try again.', 'error');
+    csrfToken = null; loadCsrf();
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const loginVisible = document.getElementById('form-login').style.display !== 'none';
+  if (loginVisible) doLogin(); else doRegister();
+});
+document.addEventListener('DOMContentLoaded', loadCsrf);
+</script>
+</body>
+</html>
