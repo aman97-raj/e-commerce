@@ -10,7 +10,7 @@
 
 > A complete, production-ready e-commerce platform built with a pure HTML/CSS/JS frontend and a PHP/SQLite backend — no frameworks, no dependencies, just clean code.
 
-**Developed by [Aman Raj](https://pritam03.netlify.app)**
+**Developed by [Aman Raj](https://aman97.netlify.app)**
 
 ---
 
@@ -199,7 +199,7 @@ In `pages/checkout.html`, replace the Place Order logic with your gateway SDK (R
 ## 👨‍💻 Developer
 
 **Pritam Saha**
-GitHub: [@IAmAmanRaj](https://github.com/IAmPritamSaha)
+GitHub: [@IAmAmanRaj](https://github.com/IAmAmanRaj)
 
 ---
 
