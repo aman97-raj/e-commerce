@@ -212,5 +212,5 @@ This project is licensed under the **Apache License 2.0** — see the [LICENSE](
 ---
 
 <div align="center">
-Made with ❤️ by <strong>Pritam Saha</strong> — 2026
+Made with ❤️ by <strong>Aman Raj</strong> — 2026
 </div>
